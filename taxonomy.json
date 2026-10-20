@@ -1,0 +1,86 @@
+{
+  "name": "Agent payment fraud taxonomy",
+  "version": "0.1",
+  "license": "Apache-2.0",
+  "schema_reference": "https://schema.halvorai.com/ape/v0.1.json",
+  "single_mandate_check_values": [
+    "no",
+    "rarely",
+    "sometimes",
+    "with_verified_credentials"
+  ],
+  "patterns": [
+    {
+      "id": "AFT-01",
+      "key": "runaway_loop",
+      "name": "Runaway loop",
+      "description": "The agent retries or repeats a purchase. One intent, many payments. Often a bug, not an attack, and just as expensive.",
+      "caught_by_single_mandate_check": "rarely",
+      "signals": [
+        "Many payment.settled events to the same payee with the same payment.amount in a short window",
+        "Regular intervals between payments",
+        "One instruction.hash behind all of them"
+      ]
+    },
+    {
+      "id": "AFT-02",
+      "key": "scope_drift",
+      "name": "Scope drift",
+      "description": "The agent slowly buys outside its job.",
+      "caught_by_single_mandate_check": "sometimes",
+      "signals": [
+        "payee.mcc, payment.category, payee or payment.rail not used by this agent in 30 days, repeated within 24 hours",
+        "Share of payments covered by a valid mandate falls"
+      ]
+    },
+    {
+      "id": "AFT-03",
+      "key": "prompt_injection",
+      "name": "Prompt injection",
+      "description": "Instructions hidden in a web page, email or document steer the agent's payments to someone else.",
+      "caught_by_single_mandate_check": "rarely",
+      "signals": [
+        "New payee for the agent and the organization",
+        "Amount above the agent's normal range",
+        "Unusual time of day",
+        "Payee does not match what the instruction was about"
+      ]
+    },
+    {
+      "id": "AFT-04",
+      "key": "payee_swap",
+      "name": "Payee swap",
+      "description": "Payment details are changed mid-flow, so a legitimate purchase lands in an attacker's account.",
+      "caught_by_single_mandate_check": "sometimes",
+      "signals": [
+        "payee differs from the payee in the checkout or payment mandate in evidence[]",
+        "Payee wallet or account first seen recently",
+        "Payee not among the agent's known suppliers"
+      ]
+    },
+    {
+      "id": "AFT-05",
+      "key": "agent_impersonation",
+      "name": "Agent impersonation",
+      "description": "A rogue agent presents stolen credentials or tokens and passes as a trusted one.",
+      "caught_by_single_mandate_check": "with_verified_credentials",
+      "signals": [
+        "Network proof in evidence[] missing, expired or not verifying",
+        "agent.key_thumbprint differs from history",
+        "Reused nonce",
+        "Sudden change in agent.framework, agent.version or rail mix"
+      ]
+    },
+    {
+      "id": "AFT-06",
+      "key": "mandate_splitting",
+      "name": "Mandate splitting",
+      "description": "A large spend broken into payments that each sit just under the limit.",
+      "caught_by_single_mandate_check": "no",
+      "signals": [
+        "Several payments near the per-payment limit to the same or related payees in a short window",
+        "Cumulative spend across merchants and rails above the mandate budget"
+      ]
+    }
+  ]
+}
