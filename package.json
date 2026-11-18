@@ -1,0 +1,13 @@
+{
+  "name": "agent-fraud-taxonomy-checks",
+  "private": true,
+  "type": "module",
+  "description": "Checks taxonomy.json against schema/taxonomy.schema.json.",
+  "scripts": {
+    "test": "node scripts/check.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

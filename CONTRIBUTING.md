@@ -17,15 +17,16 @@ This taxonomy is a working list of how AI agent payments go wrong. It gets bette
 
 ## Set up and run the checks
 
-Requirements: None for text changes. To check `taxonomy.json` locally you need Python 3 or Node.js.
+Requirements: None for text changes. To check `taxonomy.json` locally you need Node.js 22 or later and npm.
 
 ```bash
-git clone https://github.com/halvorAI/agent-fraud-taxonomy.git
-cd agent-fraud-taxonomy
-python3 -m json.tool taxonomy.json > /dev/null && echo "taxonomy.json is valid JSON"
+npm ci
+npm test
 ```
 
-There is no test suite. If you change `taxonomy.json`, check that it still parses with the command above.
+`npm test` runs [`scripts/check.mjs`](scripts/check.mjs). It validates `taxonomy.json` against [`schema/taxonomy.schema.json`](schema/taxonomy.schema.json), checks that IDs and keys are unique and in order, and should end with `taxonomy.json is valid: N patterns.` CI runs the same command on every pull request.
+
+If you change the numbers in AFT-06's example, run `node scripts/figure.mjs` to redraw `assets/mandate-splitting.svg`.
 
 ## Your first contribution
 
