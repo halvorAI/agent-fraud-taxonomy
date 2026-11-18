@@ -73,7 +73,7 @@ A large spend broken into payments that each sit just under the limit.
 
 ## Contributing
 
-Seen a pattern that is missing, or a signal that works better? Open an issue with a short description and an anonymized example. We credit accepted additions in the next version. Please don't include customer names or personal data.
+Seen a pattern that is missing, or a signal that works better? Open an issue with a short description and an anonymized example. We credit accepted additions in the next version. Please don't include customer names or personal data. See [CONTRIBUTING.md](CONTRIBUTING.md) for what we look for and how quickly we respond.
 
 ## Versioning
 
